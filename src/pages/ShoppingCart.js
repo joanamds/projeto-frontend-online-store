@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ButtonShoppingCart from '../components/ButtonShoppingCart';
 import CardProduct from '../components/CardProduct';
+import EmptyCart from '../components/EmptyCart';
 import { getShoppingCart, saveShoppingCart,
   removeProduct } from '../services/localstorage';
+import '../styles/ShoppingCart.css';
 
 class ShoppingCart extends React.Component {
   constructor() {
@@ -47,73 +50,89 @@ class ShoppingCart extends React.Component {
   render() {
     const { shoppingCart } = this.state;
     return (
-      <div className="shopping-cart">
-        { (shoppingCart?.length > 0) // a interrogação valida se não é undefined, evitando que o código quebre.
-          ? (
-            <>
-              <ul>
-                {shoppingCart.map((product, i) => (
-                  <li
-                    key={ i }
-                    data-testid="shopping-cart-product-name"
+      <>
+        <ButtonShoppingCart shoppingCart={ shoppingCart } />
+        <div className="shopping-cart">
+          { (shoppingCart?.length > 0) // a interrogação valida se não é undefined, evitando que o código quebre.
+            ? (
+              <>
+                <ul className="cart-list">
+                  {shoppingCart.map((product, i) => (
+                    <li
+                      className="list-item"
+                      key={ i }
+                      data-testid="shopping-cart-product-name"
+                    >
+                      <CardProduct
+                        dataTestId="shopping-cart-product-quantity"
+                        title={ product.title }
+                        thumbnail={ product.thumbnail }
+                        price={ product.price }
+                        id={ product.id }
+                      />
+                      <div className="change-quantity">
+                        <button
+                          className="increase-decrease"
+                          name="increase"
+                          id={ product.id }
+                          type="button"
+                          data-testid="product-increase-quantity"
+                          disabled={
+                            (product.quantity === product.available_quantity)
+                          }
+                          onClick={ this.handleQuantity }
+                        >
+                          +
+                        </button>
+                        <p
+                          data-testid="shopping-cart-product-quantity"
+                        >
+                          { product.quantity }
+                        </p>
+                        <button
+                          className="increase-decrease"
+                          name="decrease"
+                          id={ product.id }
+                          type="button"
+                          data-testid="product-decrease-quantity"
+                          disabled={
+                            (product.quantity === 1)
+                          }
+                          onClick={ this.handleQuantity }
+                        >
+                          -
+                        </button>
+                      </div>
+                      <button
+                        className="button-remove"
+                        type="button"
+                        data-testid="remove-product"
+                        onClick={ () => this.handleRemoveProduct(product) }
+                      >
+                        <span className="material-symbols-outlined">
+                          remove_shopping_cart
+                        </span>
+                        Remover Produto
+                      </button>
+                    </li>))}
+                </ul>
+                <Link to="/checkout">
+                  <button
+                    className="button-checkout"
+                    data-testid="checkout-products"
+                    type="button"
                   >
-                    <CardProduct
-                      dataTestId="shopping-cart-product-quantity"
-                      title={ product.title }
-                      thumbnail={ product.thumbnail }
-                      price={ product.price }
-                      id={ product.id }
-                    />
-                    <button
-                      name="increase"
-                      id={ product.id }
-                      type="button"
-                      data-testid="product-increase-quantity"
-                      disabled={
-                        (product.quantity === product.available_quantity)
-                      }
-                      onClick={ this.handleQuantity }
-                    >
-                      +
-                    </button>
-                    <button
-                      name="decrease"
-                      id={ product.id }
-                      type="button"
-                      data-testid="product-decrease-quantity"
-                      disabled={
-                        (product.quantity === 1)
-                      }
-                      onClick={ this.handleQuantity }
-                    >
-                      -
-                    </button>
-                    <button
-                      type="button"
-                      data-testid="remove-product"
-                      onClick={ () => this.handleRemoveProduct(product) }
-                    >
-                      Remover Produto
-                    </button>
-                    <p
-                      data-testid="shopping-cart-product-quantity"
-                    >
-                      { product.quantity }
-                    </p>
-                  </li>))}
-              </ul>
-              <Link to="/checkout">
-                <button
-                  data-testid="checkout-products"
-                  type="button"
-                >
-                  Finalizar compra
-                </button>
-              </Link>
-            </>
-          )
-          : <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>}
-      </div>
+                    <span className="material-symbols-outlined">
+                      shopping_cart_checkout
+                    </span>
+                    Finalizar compra
+                  </button>
+                </Link>
+              </>
+            )
+            : <EmptyCart />}
+        </div>
+      </>
     );
   }
 }

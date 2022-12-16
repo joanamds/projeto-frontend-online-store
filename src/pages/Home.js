@@ -4,6 +4,8 @@ import ButtonShoppingCart from '../components/ButtonShoppingCart';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import CardProduct from '../components/CardProduct';
 import { addProduct, getShoppingCart, saveShoppingCart } from '../services/localstorage';
+import '../styles/Home.css';
+import ButtonAddCart from '../components/ButtonAddCart';
 
 class Home extends React.Component {
   state = {
@@ -81,11 +83,13 @@ class Home extends React.Component {
         <ButtonShoppingCart shoppingCart={ shoppingCart } />
         <label htmlFor="search">
           <p
+            className="home-message"
             data-testid="home-initial-message"
           >
             Digite algum termo de pesquisa ou escolha uma categoria.
           </p>
           <input
+            className="input-search"
             data-testid="query-input"
             type="text"
             id="search"
@@ -93,6 +97,7 @@ class Home extends React.Component {
             onChange={ this.handleSearchChange }
           />
           <button
+            className="input-button"
             type="button"
             data-testid="query-button"
             onClick={ this.onSearchClick }
@@ -100,58 +105,60 @@ class Home extends React.Component {
             Pesquisar
           </button>
         </label>
-        <aside>
-          {listCategories.map((category) => (
-            <li key={ category.id }>
-              <label htmlFor={ category.id }>
-                <input
-                  id={ category.id }
-                  value={ category.id }
-                  name="category"
-                  type="radio"
-                  data-testid="category"
-                  onClick={ this.onClickCategory }
-                />
-                {category.name}
-              </label>
-            </li>
-          ))}
-        </aside>
-        <section className="result-content">
-          { results !== undefined
-            ? (
-              <ul>
-                {results.map((result) => (
-                  <li
-                    key={ result.id }
-                    data-testid="product"
-                  >
-                    <CardProduct
-                      title={ result.title }
-                      thumbnail={ result.thumbnail }
-                      price={ result.price }
-                      id={ result.id }
-                      shipping={ result.shipping.free_shipping }
-                    />
-                    <Link
-                      data-testid="product-detail-link"
-                      to={ `/details/${result.id}` }
-                    >
-                      Detalhes
-                    </Link>
-                    <button
-                      type="button"
-                      name="addCart"
-                      data-testid="product-add-to-cart"
-                      onClick={ () => this.handleAddCart(result) }
-                    >
-                      Adicionar ao carrinho
-                    </button>
-                  </li>))}
-              </ul>
-            )
-            : <p>Nenhum produto foi encontrado</p>}
-        </section>
+        <div className="page-content">
+          <aside className="list-category">
+            <h2 className="category-title">Categorias</h2>
+            {listCategories.map((category) => (
+              <li key={ category.id }>
+                <label htmlFor={ category.id }>
+                  <input
+                    id={ category.id }
+                    value={ category.id }
+                    name="category"
+                    type="radio"
+                    data-testid="category"
+                    onClick={ this.onClickCategory }
+                  />
+                  {category.name}
+                </label>
+              </li>
+            ))}
+          </aside>
+          <section className="result-content">
+            { results !== undefined
+              ? (
+                <ul className="results-list">
+                  {results.map((result) => (
+                    <div className="list-item" key={ result.id }>
+                      <li
+                        key={ result.id }
+                        data-testid="product"
+                      >
+                        <CardProduct
+                          title={ result.title }
+                          thumbnail={ result.thumbnail }
+                          price={ result.price }
+                          id={ result.id }
+                          shipping={ result.shipping.free_shipping }
+                        />
+                        <div className="details-button">
+                          <Link
+                            data-testid="product-detail-link"
+                            to={ `/details/${result.id}` }
+                          >
+                            Detalhes
+                          </Link>
+                          <ButtonAddCart
+                            handleAddCart={ () => this.handleAddCart(result) }
+                          />
+                        </div>
+                      </li>
+                    </div>))}
+                </ul>
+              )
+              : <p className="no-product-found">Nenhum produto foi encontrado</p>}
+          </section>
+        </div>
       </>
 
     );

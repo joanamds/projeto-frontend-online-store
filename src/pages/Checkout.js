@@ -1,7 +1,11 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import CardProduct from '../components/CardProduct';
+import FormCheckout from '../components/FormCheckout';
 import { getShoppingCart } from '../services/localstorage';
+import '../styles/Checkout.css';
+import '../styles/CardProduct.css';
+import ButtonShoppingCart from '../components/ButtonShoppingCart';
 
 class Checkout extends React.Component {
   constructor() {
@@ -79,140 +83,42 @@ class Checkout extends React.Component {
     const { shoppingCart, validation } = this.state;
     return (
       <>
-        <p>Revise seus produtos</p>
-        <ul>
-          {shoppingCart?.map((product, i) => (
-            <li
-              key={ i }
-              data-testid="shopping-cart-product-name"
-            >
-              <CardProduct
-                dataTestId="shopping-cart-product-quantity"
-                title={ product.title }
-                thumbnail={ product.thumbnail }
-                price={ Number(product.price) * product.quantity }
-                id={ product.id }
-              />
-              <p>
-                { `Quantidade: ${product.quantity}` }
-              </p>
-            </li>))}
-        </ul>
-        <p>Total</p>
-        {shoppingCart.reduce((acc, curr) => {
-          acc += Number(curr.price) * curr.quantity;
-          return Number(acc);
-        }, [])}
-        <br />
-        <label htmlFor="name">
-          Nome completo
-          <input
-            id="name"
-            type="text"
-            data-testid="checkout-fullname"
-            onChange={ this.handleOnChange }
-            required
-          />
-        </label>
-        <label htmlFor="email">
-          Email
-          <input
-            id="email"
-            type="email"
-            data-testid="checkout-email"
-            onChange={ this.handleOnChange }
-            required
-          />
-        </label>
-        <label htmlFor="cpf">
-          CPF
-          <input
-            id="cpf"
-            type="text"
-            data-testid="checkout-cpf"
-            onChange={ this.handleOnChange }
-            required
-          />
-        </label>
-        <label htmlFor="full-name">
-          Telefone
-          <input
-            id="phone"
-            type="text"
-            data-testid="checkout-phone"
-            onChange={ this.handleOnChange }
-            required
-          />
-        </label>
-        <label htmlFor="cep">
-          CEP
-          <input
-            id="cep"
-            type="text"
-            data-testid="checkout-cep"
-            onChange={ this.handleOnChange }
-            required
-          />
-        </label>
-        <label htmlFor="address">
-          Endereço
-          <input
-            id="address"
-            type="text"
-            data-testid="checkout-address"
-            onChange={ this.handleOnChange }
-            placeholder="Nome da Rua, Bairro - Número"
-            required
-          />
-        </label>
-        <fieldset>
-          <legend>Método de pagamento</legend>
-          <label htmlFor="ticket">
-            <input
-              id="ticket"
-              name="payment"
-              type="radio"
-              data-testid="ticket-payment"
-              onChange={ this.handleOnChange }
-            />
-            Boleto
-          </label>
-          <label htmlFor="visa">
-            <input
-              id="visa"
-              name="payment"
-              type="radio"
-              data-testid="visa-payment"
-              onChange={ this.handleOnChange }
-            />
-            Visa
-          </label>
-          <label htmlFor="master">
-            <input
-              id="master"
-              name="payment"
-              type="radio"
-              data-testid="master-payment"
-              onChange={ this.handleOnChange }
-            />
-            Mastercard
-          </label>
-          <label htmlFor="elo">
-            <input
-              id="elo"
-              name="payment"
-              type="radio"
-              data-testid="elo-payment"
-              onChange={ this.handleOnChange }
-            />
-            Elo
-          </label>
-        </fieldset>
-        {/* {validation === undefined && <p>Preencha todos os campos</p>} */}
+        <ButtonShoppingCart />
+        <h2 className="checkout-title">Revise seus produtos</h2>
+        <div>
+          <ul className="checkout-list">
+            {shoppingCart?.map((product, i) => (
+              <li
+                className="list-item"
+                key={ i }
+                data-testid="shopping-cart-product-name"
+              >
+                <CardProduct
+                  dataTestId="shopping-cart-product-quantity"
+                  title={ product.title }
+                  thumbnail={ product.thumbnail }
+                  price={ Number(product.price) * product.quantity }
+                  id={ product.id }
+                />
+                <p className="quantity">
+                  { `Quantidade: ${product.quantity}` }
+                </p>
+              </li>))}
+          </ul>
+        </div>
+        <div className="total-item">
+          <p>Total</p>
+          {shoppingCart.reduce((acc, curr) => {
+            acc += Number(curr.price) * curr.quantity;
+            return Number(acc);
+          }, [])}
+        </div>
+        <FormCheckout handleOnChange={ this.handleOnChange } />
         {validation !== undefined
         && validation === false && <p data-testid="error-msg">Campos inválidos</p>}
         {validation === true && <Redirect to="/" />}
         <button
+          className="button-shop"
           data-testid="checkout-btn"
           type="button"
           onClick={ this.validationCheckout }
@@ -223,5 +129,4 @@ class Checkout extends React.Component {
     );
   }
 }
-
 export default Checkout;

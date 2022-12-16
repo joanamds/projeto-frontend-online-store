@@ -5,7 +5,11 @@ import { getProductById } from '../services/api';
 import CardProduct from '../components/CardProduct';
 import { addEvaluation, addProduct,
   getEvaluationList, getShoppingCart, saveShoppingCart } from '../services/localstorage';
+import '../styles/Rating.css';
+import '../styles/CardProduct.css';
 import '../styles/Details.css';
+import ButtonAddCart from '../components/ButtonAddCart';
+import Form from '../components/Form';
 
 class Details extends React.Component {
   state = {
@@ -85,7 +89,6 @@ class Details extends React.Component {
 
   render() {
     const { result, validation, email, text, evaluationList, shoppingCart } = this.state;
-    console.log(result);
     return (
       <div>
         <ButtonShoppingCart shoppingCart={ shoppingCart } />
@@ -95,23 +98,13 @@ class Details extends React.Component {
           price={ result.price }
           id={ result.id }
         />
-        <p>
+        <p className="brand">
           {result.attributes?.some((att) => att.id === 'BRAND')
           && `Marca: ${result.attributes?.find((att) => att.id === 'BRAND').value_name}`}
           {result.attributes?.some((att) => att.id === 'AUTHOR')
             && `Autor: 
             ${result.attributes?.find((att) => att.id === 'AUTHOR').value_name}`}
         </p>
-        <br />
-        <button
-          type="button"
-          name="addCart"
-          data-testid="product-detail-add-to-cart"
-          onClick={ () => this.handleAddCart(result) }
-        >
-          Adicionar ao carrinho
-        </button>
-        <br />
         <div className="product-pictures">
           {result.pictures?.map((pic, i) => (<img
             key={ i }
@@ -119,122 +112,32 @@ class Details extends React.Component {
             alt={ pic.id }
           />))}
         </div>
-        <form>
-          <h3>Opinião do Produto</h3>
-          <label htmlFor="email">
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={ email }
-              placeholder="Digite seu e-mail"
-              data-testid="product-detail-email"
-              onChange={ this.handleOnChange }
-              required
-            />
-          </label>
-          <br />
-          <span>Nota:</span>
-          <div className="rating">
-            <label htmlFor="one" data-testid="1-rating">
-              <input
-                id="one"
-                type="radio"
-                name="rating"
-                value="1"
-                onChange={ this.handleOnChange }
-                required
-              />
-              <span className="icon">★</span>
-            </label>
-            <label htmlFor="two" data-testid="2-rating">
-              <input
-                id="two"
-                type="radio"
-                name="rating"
-                value="2"
-                onChange={ this.handleOnChange }
-                required
-              />
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-            </label>
-            <label htmlFor="three" data-testid="3-rating">
-              <input
-                id="three"
-                type="radio"
-                name="rating"
-                value="3"
-                onChange={ this.handleOnChange }
-                required
-              />
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-            </label>
-            <label htmlFor="four" data-testid="4-rating">
-              <input
-                id="four"
-                type="radio"
-                name="rating"
-                value="4"
-                onChange={ this.handleOnChange }
-                required
-              />
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-            </label>
-            <label htmlFor="five" data-testid="5-rating">
-              <input
-                id="five"
-                type="radio"
-                name="rating"
-                value="5"
-                onChange={ this.handleOnChange }
-                required
-              />
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-              <span className="icon">★</span>
-            </label>
-          </div>
-          <br />
-          <label htmlFor="evaluation">
-            <textarea
-              data-testid="product-detail-evaluation"
-              id="evaluation"
-              name="text"
-              value={ text }
-              rows="4"
-              cols="50"
-              placeholder="Deixe seu comentário (opcional)"
-              onChange={ this.handleOnChange }
-            />
-          </label>
-          <br />
-          <button
-            type="button"
-            data-testid="submit-review-btn"
-            onClick={ () => this.validationInputs(result.id) }
-          >
-            Enviar
-          </button>
-          {!validation && <p data-testid="error-msg">Campos inválidos</p>}
-          <ul>
-            {
-              evaluationList?.map((evaluation, i) => (
-                <li key={ i }>
-                  <p data-testid="review-card-email">{evaluation.email}</p>
-                  <p data-testid="review-card-evaluation">{evaluation.text}</p>
-                  <p data-testid="review-card-rating">{evaluation.rating}</p>
-                </li>))
-            }
-          </ul>
-        </form>
+        <ButtonAddCart
+          handleAddCart={ () => this.handleAddCart(result) }
+        />
+        <Form
+          validationInputs={ () => this.validationInputs(result.id) }
+          handleOnChange={ this.handleOnChange }
+          email={ email }
+          text={ text }
+        />
+        {!validation && <p data-testid="error-msg">Campos inválidos</p>}
+        <ul className="comments-list">
+          <h2>Comentários</h2>
+          {
+            evaluationList?.map((evaluation, i) => (
+              <li
+                className="comment"
+                key={ i }
+              >
+                <p data-testid="review-card-email">{evaluation.email}</p>
+                <p data-testid="review-card-evaluation" className="text-comment">
+                  {`Comentário: ${evaluation.text}`}
+                </p>
+                <p data-testid="review-card-rating">{`Nota: ${evaluation.rating}`}</p>
+              </li>))
+          }
+        </ul>
       </div>
     );
   }

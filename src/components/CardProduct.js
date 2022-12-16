@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/CardProduct.css';
 
 class CardProduct extends React.Component {
   render() {
@@ -13,9 +14,18 @@ class CardProduct extends React.Component {
           alt={ title }
         />
         <p data-testid="product-detail-price">
-          { price }
+          { `R$${price}`}
         </p>
-        {shipping && <p data-testid="free-shipping">Frete gratis!</p>}
+        {shipping
+        && (
+          <div className="free-shipping-message">
+            <span className="material-symbols-outlined">
+              local_shipping
+            </span>
+            <p data-testid="free-shipping">
+              Frete gratis!
+            </p>
+          </div>)}
       </div>
     );
   }
