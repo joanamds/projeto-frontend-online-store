@@ -17,6 +17,8 @@ Precisamos desenvolver uma loja online alimentada pela API do mercado livre. Ond
 Em grupo nós não fizemos nenhuma estilização. Mas para aprendermos melhor CSS foi sugerido para que cada membro do grupo criasse uma branch com o seu nome e desenvolvesse o CSS da maneira como quisesse. 
 Eu resolvi pegar a paleta de cores do site do Mercado Livre e fiz uma estilização baseada no site do Mercado Livre, já que utilizamos uma API do mesmo. 
 
+[Clique aqui para ver a aplicação](https://joanamds.github.io/projeto-frontend-online-store/)
+
 ### Gif mostrando a aplicação: 
 ![frontend online store](https://user-images.githubusercontent.com/106452876/208461110-1e187651-5870-42bb-aec0-b122644d19ae.gif)
 
