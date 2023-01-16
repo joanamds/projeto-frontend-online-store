@@ -6,7 +6,7 @@ Nos organizamos em pair programming e fizemos o trabalho inteiro em duplas ou em
 ## Técnologias usadas
 
 Front-end:
-> Desenvolvido usando: React, Redux, CSS3, HTML5, Redis, ES6
+> Desenvolvido usando: React, CSS3, HTML5, ES6
 
 ### Mas do que se trata a front-end online store? 
 Precisamos desenvolver uma loja online alimentada pela API do mercado livre. Onde seria possível para o cliente filtrar os produtos por categoria, pesquisar na barra de pesquisa, adicionar, remover e alterar a quantidade do produto no carrinho e em seguida finalizar a compra em uma página de checkout. 
