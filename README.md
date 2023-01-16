@@ -21,6 +21,27 @@ Eu resolvi pegar a paleta de cores do site do Mercado Livre e fiz uma estilizaç
   
 ![frontend online store](https://user-images.githubusercontent.com/106452876/208461110-1e187651-5870-42bb-aec0-b122644d19ae.gif)
 
+## Instalando Dependências
+> Frontend
+```bash
+cd src/
+npm install
+``` 
+## Executando aplicação
+* Para rodar o front-end:
+
+  ```
+    cd src/ && npm start
+  ```
+
+## Executando Testes
+
+* Para rodar todos os testes:
+
+  ```
+    npm test
+  ```
+
 <!-- Olá, Tryber!
 Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
 
