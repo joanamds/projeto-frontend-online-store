@@ -12,7 +12,7 @@ Nos organizamos em pair programming e fizemos o trabalho inteiro em duplas ou em
 ### Mas do que se trata a front-end online store? 
 Precisamos desenvolver uma loja online alimentada pela API do mercado livre. Onde seria possível para o cliente filtrar os produtos por categoria, pesquisar na barra de pesquisa, adicionar, remover e alterar a quantidade do produto no carrinho e em seguida finalizar a compra em uma página de checkout.
 
-![frontend online store](https://user-images.githubusercontent.com/106452876/208461110-1e187651-5870-42bb-aec0-b122644d19ae.gif)
+[frontend-online-store.webm](https://user-images.githubusercontent.com/106452876/230097090-9916a87a-5684-4816-9dbd-2e8eacfa8935.webm)
 
 ### Endpoints da API
 <li>Para listar as categorias disponíveis: https://api.mercadolibre.com/sites/MLB/categories </li>
