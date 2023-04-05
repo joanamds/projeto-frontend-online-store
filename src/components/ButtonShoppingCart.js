@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/ButtonShoppingCart.css';
 import PropTypes from 'prop-types';
+import logo from './logo.png';
 
 class ButtonShoppingCart extends React.Component {
   render() {
@@ -13,7 +14,7 @@ class ButtonShoppingCart extends React.Component {
         >
           <img
             className="logo"
-            src="https://logosvg.com.br/logos/mercado-livre-88.png"
+            src={ logo }
             width="200"
             alt="Shopping cart"
           />
